@@ -1,0 +1,88 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>giphy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css">
+    <script src="gifgame.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <h1>GifTastic!</h1>
+    <br>
+
+    <button data-premade="cat">Cat</button>
+    <button data-premade="dog">Dog</button>
+    <br>
+
+    <form>
+        <div class="form-group">
+            <label for="addAnimals">Add Aminals:</label>
+            <input type="text" class="form-control" id="addAnimals">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br>
+
+
+    </div>
+    <div id="gifs-appear-here">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        console.log("addAnimals");
+
+
+        $(".button").on("click", function () {
+            event.preventDefault()
+            var premade = $(this).attr("data-premade");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            $("#apremade").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
+            var topics = ["cats", "dogs"]
+        });
+
+            $(".btn").on("click", function (event) {
+            event.preventDefault()
+            var animal = $(this).attr("data-animal");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + $("#addAnimals").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
+            var topics = ["cats", "dogs"]
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+                .then(function (response) {
+                    var results = response.data;
+
+                    for (var i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+
+                        var rating = results[i].rating;
+
+                        var p = $("<p>").text("Rating: " + rating);
+
+                        var animalImage = $("<img>");
+                        animalImage.attr("src", results[i].images.fixed_height.url);
+                        
+                        var animate = results[i].images.fixed_height.url;
+                        var still = results[i].images.fixed_height.url;
+                        
+                        gifDiv.prepend(p);
+                        gifDiv.prepend(animalImage);
+                        topics.push("addAnimals");
+                        $("#gifs-appear-here").prepend(gifDiv);
+                    }
+                });
+        });
+
+
+    </script>
+</body>
+</html>
