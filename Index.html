@@ -1,4 +1,4 @@
-<!DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -35,24 +35,28 @@
     <div id="gifs-appear-here">
     </div>
 
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         console.log("addAnimals");
 
+        var topics = ["cats", "dogs", "bird"]
 
-        $(".button").on("click", function () {
-            event.preventDefault()
-            var premade = $(this).attr("data-premade");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            $("#apremade").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
-            var topics = ["cats", "dogs"]
-        });
+        for (var i = 0; i < topics.length; i++) {
+            var button = $("<button>").text(topics[i])
+            button.addClass("button")
+            button.attr("data-animal", topics[i]);
+            $("#gifs-appear-here").prepend(button);
+        }
 
-            $(".btn").on("click", function (event) {
+
+        $(".button").on("click", function (event) {
             event.preventDefault()
-            var animal = $(this).attr("data-animal");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + $("#addAnimals").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
-            var topics = ["cats", "dogs"]
+            console.log(event)
+            var animal = ($(this).attr("data-animal"))
+            console.log(animal)
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
 
             $.ajax({
                 url: queryURL,
@@ -60,6 +64,7 @@
             })
                 .then(function (response) {
                     var results = response.data;
+                    console.log(results)
 
                     for (var i = 0; i < results.length; i++) {
                         var gifDiv = $("<div>");
@@ -69,20 +74,55 @@
                         var p = $("<p>").text("Rating: " + rating);
 
                         var animalImage = $("<img>");
-                        animalImage.attr("src", results[i].images.fixed_height.url);
-                        
+                        animalImage.addClass("img");
+                        animalImage.attr("src", results[i].images.original_still.url);
+
                         var animate = results[i].images.fixed_height.url;
-                        var still = results[i].images.fixed_height.url;
-                        
+                        var still = results[i].images.original_still.url;
+
                         gifDiv.prepend(p);
                         gifDiv.prepend(animalImage);
                         topics.push("addAnimals");
                         $("#gifs-appear-here").prepend(gifDiv);
+                        
                     }
                 });
         });
 
 
+// on click img class, if still, animate, if animated, still
+
+
+
+        //  on button click still gif appears, on gif click, animates
+        // $(".button").on("click", function () {
+        //     event.preventDefault()
+        //     var premade = $(this).attr("data-premade");
+        //     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        //         $("#apremade").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
+        //     var topics = ["cats", "dogs"]
+        // });
+
+        // $(".btn").on("click", function (event) {
+        //     event.preventDefault()
+        //     var animal = $(this).attr("data-animal");
+        //     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + $("#addAnimals").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
+        //     var topics = ["cats", "dogs"]
+
+        //     $.ajax({
+        //         url: queryURL,
+        //         method: "GET"
+        //     })
+
+
+    //     if (state === "still");
+    //     $(this).attr("src", $(this).attr("data-animate"));
+    //     $(this).attr("data-state", "animate");
+    //    else if{
+    //         $(this).attr("src", $(this).attr("data-still"));
+    //         $(this).attr("data-state", "still");
+    //     }
     </script>
 </body>
+
 </html>
