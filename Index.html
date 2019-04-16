@@ -17,10 +17,6 @@
     <h1>GifTastic!</h1>
     <br>
 
-    <button data-premade="cat">Cat</button>
-    <button data-premade="dog">Dog</button>
-    <br>
-
     <form>
         <div class="form-group">
             <label for="addAnimals">Add Aminals:</label>
@@ -41,7 +37,7 @@
     <script type="text/javascript">
         console.log("addAnimals");
 
-        var topics = ["cats", "dogs", "bird"]
+        var topics = ["cat", "dog", "bird", "horse", "pig"]
 
         for (var i = 0; i < topics.length; i++) {
             var button = $("<button>").text(topics[i])
@@ -79,49 +75,29 @@
 
                         var animate = results[i].images.fixed_height.url;
                         var still = results[i].images.original_still.url;
-
+                        animalImage.attr("data-still", still);
+                        animalImage.attr("data-animate", animate);
+                        animalImage.attr("data-state", "still");
                         gifDiv.prepend(p);
                         gifDiv.prepend(animalImage);
                         topics.push("addAnimals");
                         $("#gifs-appear-here").prepend(gifDiv);
-                        
+
                     }
                 });
         });
+        $("#gifs-appear-here").on("click", ".img", function (event) {
+            console.log(event)
 
+            if ($(this).attr("data-state") === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still")
+            }
 
-// on click img class, if still, animate, if animated, still
-
-
-
-        //  on button click still gif appears, on gif click, animates
-        // $(".button").on("click", function () {
-        //     event.preventDefault()
-        //     var premade = $(this).attr("data-premade");
-        //     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        //         $("#apremade").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
-        //     var topics = ["cats", "dogs"]
-        // });
-
-        // $(".btn").on("click", function (event) {
-        //     event.preventDefault()
-        //     var animal = $(this).attr("data-animal");
-        //     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + $("#addAnimals").val() + "&api_key=U1vaRMqPKJWG1Z9zsKEGWdl21RYsWREp&limit=10&offset=0&rating=G&lang=en";
-        //     var topics = ["cats", "dogs"]
-
-        //     $.ajax({
-        //         url: queryURL,
-        //         method: "GET"
-        //     })
-
-
-    //     if (state === "still");
-    //     $(this).attr("src", $(this).attr("data-animate"));
-    //     $(this).attr("data-state", "animate");
-    //    else if{
-    //         $(this).attr("src", $(this).attr("data-still"));
-    //         $(this).attr("data-state", "still");
-    //     }
+        })
     </script>
 </body>
 
